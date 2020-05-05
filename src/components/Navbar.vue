@@ -1,11 +1,11 @@
 <template>
     <nav>
-        <v-toolbar flat app>
+        <v-toolbar>
             <v-toolbar-title class="text-uppercase grey--text">
                 <span>Teacher Diary</span>    
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn flat color="grey">
+            <v-btn  color="grey">
                 <span>Déconnexion</span>
                 <v-icon right></v-icon>
             </v-btn>    
