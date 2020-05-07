@@ -5,8 +5,8 @@
       <!-- PopUp du formulaire -->
       <CreateEvents 
       @addEvent="addEvent"
-
-      :hideWeekdays="hideWeekdays" />
+      :hideWeekdays="hideWeekdays" 
+      />
       
       <v-btn class="pink white--text" @click="events.pop()">Remove last event</v-btn>
 
@@ -23,10 +23,11 @@
         :time="true" 
         :time-step="15"
         :time-from="8 * 60"
-        :time-to="19 * 60"
+        :time-to="18 * 60"
         :disable-views="['years', 'year', 'month', 'week', 'day']"
         :events="events"
-        :time-cell-height="18"
+        :time-cell-height="15"
+        
 
         >
 
@@ -85,11 +86,14 @@ export default {
     }
   },
 
+  // On récupère les données du component CreatEvents pour les mettre en forme avant de les envoyers dans le tableau events
   methods: {
     addEvent (event) {
       const data = {}
-      data.start = `2020-01-0${event.day + 5} ${event.time}`
+      data.start = `2020-01-0${event.day + 5} ${event.time_start}`
+      data.end = `2020-01-0${event.day + 5} ${event.time_end}`
       console.log(data)
+      // Pour envoyer dans le tableau events, ce qui va afficher le résultat dans le tableau.
       //this.events.push(data)
       
     }
@@ -111,12 +115,12 @@ export default {
   .vuecal__arrow.vuecal__arrow--highlighted,
   .vuecal__view-btn.vuecal__view-btn--highlighted {background-color: rgba(136, 236, 191, 0.25);}
 
-  .vuecal__time-cell .hours.line:before {border-color: #ff0000;}
+  .vuecal__time-cell .hours.line:before {border-color: #ff0062;}
 
 </style>
 
 <style scoped>
    .background {
-     
+     background-color: rgba(191, 211, 218, 0.61);
   }
 </style>
