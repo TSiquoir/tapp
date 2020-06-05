@@ -35,7 +35,7 @@
                                 v-model="menu1"
                                 :close-on-content-click="false"
                                 :nudge-right="40"
-                                :return-value.sync="time_start"
+                                :return-value.sync="timeStart"
                                 transition="scale-transition"
                                 offset-y
                                 max-width="290px"
@@ -43,7 +43,7 @@
                             >
                                 <template v-slot:activator="{ on }">
                                     <v-text-field
-                                        v-model="time_start"
+                                        v-model="timeStart"
                                         label="Heure de début"
                                         readonly
                                         v-on="on"
@@ -53,12 +53,12 @@
 
                                 <v-time-picker
                                 v-if="menu1"
-                                v-model="time_start"
-                                :max="time_end"
+                                v-model="timeStart"
+                                :max="timeEnd"
                                 type="time"
                                 full-width
                                 prepend-icon="access_time"
-                                @click:minute="$refs.menu_start.save(time_start)"
+                                @click:minute="$refs.menu_start.save(timeStart)"
                                 format="24hr"
                                 scrollable
                                 :allowed-minutes="allowedStep"
@@ -73,7 +73,7 @@
                                 v-model="menu2"
                                 :close-on-content-click="false"
                                 :nudge-right="40"
-                                :return-value.sync="time_end"
+                                :return-value.sync="timeEnd"
                                 
                                 transition="scale-transition"
                                 offset-y
@@ -82,7 +82,7 @@
                             >
                                 <template v-slot:activator="{ on }">
                                     <v-text-field
-                                        v-model="time_end"
+                                        v-model="timeEnd"
                                         label="Heure de fin"
                                         readonly
                                         v-on="on"
@@ -91,11 +91,11 @@
                                 </template>
                                 <v-time-picker
                                 v-if="menu2"
-                                v-model="time_end"
-                                :min="time_start"
+                                v-model="timeEnd"
+                                :min="timeStart"
                                 type="time"
                                 full-width
-                                @click:minute="$refs.menu.save(time_end)"
+                                @click:minute="$refs.menu.save(timeEnd)"
                                 format="24hr"
                                 scrollable
                                 :allowed-minutes="allowedStep"
@@ -118,13 +118,14 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="pink darken-1" text @click="formAddEvent = false">Close</v-btn>
+                    <v-btn color="pink darken-1" text @click="formAddEvent = false">Annuler</v-btn>
                     <v-btn 
                     color="blue darken-1"
                     @click="createEvent"  
                     text 
+                    :disabled="isDisabled"
                     >
-                    Save
+                    Valider
                     </v-btn>
                 </v-card-actions>
 
@@ -142,9 +143,9 @@
     export default {
         data () {
             return {
-                day: true,
-                time_start: null,
-                time_end: null,
+                day: null,
+                timeStart: null,
+                timeEnd: null,
                 menu1: false,
                 menu2: false,
                 modal2: false,
@@ -193,20 +194,24 @@
                    return !this.hideWeekdays.includes(day.value)
                })
                
-           }
+            },
+            // Permet de désactiver le bouton de validation si le jour et l'heure n'est pas selectionné
+            isDisabled () {
+                return !this.day || !this.timeStart || !this.timeEnd
+            },
        },
        methods: {
             createEvent() {
                this.formAddEvent = false
                this.$emit('addEvent',{
                    day:this.day,
-                   time_start:this.time_start,
-                   time_end:this.time_end,
+                   timeStart:this.timeStart,
+                   timeEnd:this.timeEnd,
                    
                })
-           },
+            },
 
-            
+
            // Pour selectionner les minutes par tranche de 5
             allowedStep: m => m % 5 === 0,
        }

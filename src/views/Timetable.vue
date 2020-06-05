@@ -2,13 +2,23 @@
   <v-app id="inspire">
   
     <div class="background">
-      <!-- PopUp du formulaire -->
-      <CreateEvents 
-      @addEvent="addEvent"
-      :hideWeekdays="hideWeekdays" 
-      />
-      
-      <v-btn class="pink white--text" @click="events.pop()">Remove last event</v-btn>
+      <div class="allBtn">
+        <!-- PopUp du formulaire -->
+        <CreateEvents 
+        @addEvent="addEvent"
+        :hideWeekdays="hideWeekdays" 
+        />
+        
+        <v-btn 
+        class="pink white--text" 
+        @click="events.pop()"
+        >Supprimer <br>le dernier événement</v-btn>
+
+        <v-btn 
+        class="blue white--text" 
+        @click="events.pop()"
+        >Selectionner <br>les jours de la semaine</v-btn>
+      </div>
 
       <!-- Calendrier avec ces propriétés -->
       <VueCal 
@@ -26,17 +36,10 @@
         :time-to="18 * 60"
         :disable-views="['years', 'year', 'month', 'week', 'day']"
         :events="events"
-        :time-cell-height="15"
+        :time-cell-height="30"
         
-
         >
 
-        <template v-slot:time-cell="{ hours, minutes }">
-          <div :class="{ line: true, hours: !minutes }">
-            <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
-            <span v-else style="font-size: 11px">{{ minutes }}</span>
-          </div>
-        </template>
 
         <!--Pour cacher la date à côté des jours de la semaine-->
         <template v-slot:weekday-heading="{ heading }">
@@ -89,14 +92,16 @@ export default {
   // On récupère les données du component CreatEvents pour les mettre en forme avant de les envoyers dans le tableau events
   methods: {
     addEvent (event) {
+      //this.$axios.post('/create/task')
       const data = {}
-      data.start = `2020-01-0${event.day + 5} ${event.time_start}`
-      data.end = `2020-01-0${event.day + 5} ${event.time_end}`
+      data.start = `2020-01-0${event.day + 5} ${event.timeStart}`
+      data.end = `2020-01-0${event.day + 5} ${event.timeEnd}`
       console.log(data)
       // Pour envoyer dans le tableau events, ce qui va afficher le résultat dans le tableau.
-      //this.events.push(data)
+      this.events.push(data)
       
-    }
+    },
+    
   }
 }
 
@@ -105,22 +110,40 @@ export default {
 <style>
     /* Green-theme. */
   
-  .vuecal__title-bar {background-color: #e4f5ef00;}
-  .vuecal__cell--today, .vuecal__cell--current {background-color: rgba(70, 153, 62, 0.4);}
-  .vuecal:not(.vuecal--day-view) .vuecal__cell--selected {background-color: rgba(255, 255, 255, 0.157);}
-  .vuecal__cell--selected:before {border-color: rgba(66, 108, 185, 0.5);}
+  .vuecal {
+    margin: auto;
+    max-width: 1000px;
+    }
+  .allBtn {
+    text-align: center;
+    background-color: rgba(236, 236, 236, 0.63);
+    margin-bottom: 30px;
+  }
+  .vuecal__event {
+    background-color: rgba(105, 182, 143, 0.5);
+    box-sizing: border-box;
+    padding: 5px;
+    }
+  .vuecal__cell--today, .vuecal__cell--current {
+    background-color: rgba(70, 153, 62, 0.4);
+  }
+  .vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+    background-color: rgba(219, 178, 224, 0.308);
+  }
+  .vuecal__cell--selected:before {
+    border-color: rgba(166, 174, 241, 0.397);
+  }
+
   /* Cells and buttons get highlighted when an event is dragged over it. */
   .vuecal__cell--highlighted:not(.vuecal__cell--has-splits),
-  .vuecal__cell-split--highlighted {background-color: rgba(133, 99, 197, 0.5);}
+  .vuecal__cell-split--highlighted {background-color: rgba(152, 207, 205, 0.26);}
   .vuecal__arrow.vuecal__arrow--highlighted,
   .vuecal__view-btn.vuecal__view-btn--highlighted {background-color: rgba(136, 236, 191, 0.25);}
-
-  .vuecal__time-cell .hours.line:before {border-color: #ff0062;}
 
 </style>
 
 <style scoped>
    .background {
-     background-color: rgba(191, 211, 218, 0.61);
+     background-color: rgba(255, 255, 255, 0.521);
   }
 </style>
