@@ -13,11 +13,12 @@
         class="pink white--text" 
         @click="events.pop()"
         >Supprimer <br>le dernier événement</v-btn>
-
-        <v-btn 
-        class="blue white--text" 
-        @click="events.pop()"
-        >Selectionner <br>les jours de la semaine</v-btn>
+        
+        <!-- Sélectionner les jours de la semaine-->
+        <SelectDays 
+        @addEvent="addEvent"
+        :hideWeekdays="hideWeekdays" 
+        />
       </div>
 
       <!-- Calendrier avec ces propriétés -->
@@ -31,7 +32,7 @@
         :hideWeekdays="hideWeekdays"
         :hideTitleBar="true"
         :time="true" 
-        :time-step="15"
+        :time-step="30"
         :time-from="8 * 60"
         :time-to="18 * 60"
         :disable-views="['years', 'year', 'month', 'week', 'day']"
@@ -73,8 +74,6 @@ export default {
       events: [],
       hideWeekdays: [6,7],
       
-      subject: ['Français', 'Sport', 'Langue', 'Maths', 'ect'],
-      
 
 
       /*events: [
@@ -92,10 +91,12 @@ export default {
   // On récupère les données du component CreatEvents pour les mettre en forme avant de les envoyers dans le tableau events
   methods: {
     addEvent (event) {
-      //this.$axios.post('/create/task')
       const data = {}
       data.start = `2020-01-0${event.day + 5} ${event.timeStart}`
       data.end = `2020-01-0${event.day + 5} ${event.timeEnd}`
+      data.subject = event.subject
+
+      this.$axios.post('/timetable/task', data)
       console.log(data)
       // Pour envoyer dans le tableau events, ce qui va afficher le résultat dans le tableau.
       this.events.push(data)
@@ -112,12 +113,13 @@ export default {
   
   .vuecal {
     margin: auto;
-    max-width: 1000px;
+    max-width: 1200px;
     }
   .allBtn {
     text-align: center;
     background-color: rgba(236, 236, 236, 0.63);
     margin-bottom: 30px;
+    margin-top: 30px;
   }
   .vuecal__event {
     background-color: rgba(105, 182, 143, 0.5);
@@ -128,7 +130,7 @@ export default {
     background-color: rgba(70, 153, 62, 0.4);
   }
   .vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
-    background-color: rgba(219, 178, 224, 0.308);
+    background-color: rgba(204, 184, 221, 0.15);
   }
   .vuecal__cell--selected:before {
     border-color: rgba(166, 174, 241, 0.397);

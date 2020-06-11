@@ -109,9 +109,9 @@
                     <v-select   
                         
                         label="Matière"
-                
-                        item-value="value"
-                        item-text="text"
+                        :items="subjects"
+                        item-value="id"
+                        item-text="name"
                     >
                     </v-select>
 
@@ -144,6 +144,7 @@
         data () {
             return {
                 day: null,
+                subjects: null,
                 timeStart: null,
                 timeEnd: null,
                 menu1: false,
@@ -153,11 +154,11 @@
               
             }
         },
-       props: {
-           hideWeekdays: Array,
-       },
-       computed: {
-           days () {
+        props: {
+            hideWeekdays: Array,
+        },
+        computed: {
+            days () {
                 const days = [
                     {
                         value: 1,
@@ -199,8 +200,10 @@
             isDisabled () {
                 return !this.day || !this.timeStart || !this.timeEnd
             },
-       },
-       methods: {
+       
+       
+        },
+        methods: {
             createEvent() {
                this.formAddEvent = false
                this.$emit('addEvent',{
@@ -214,7 +217,11 @@
 
            // Pour selectionner les minutes par tranche de 5
             allowedStep: m => m % 5 === 0,
-       }
+        },
+        async mounted () {
+            const { data } = await this.$axios.get('/subject')
+            this.subjects = data
+        },
     }
 </script>
 
