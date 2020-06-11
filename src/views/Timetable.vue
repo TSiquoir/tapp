@@ -6,7 +6,8 @@
         <!-- PopUp du formulaire -->
         <CreateEvents 
         @addEvent="addEvent"
-        :hideWeekdays="hideWeekdays" 
+        :hideWeekdays="hideWeekdays"
+        
         />
         
         <v-btn 
