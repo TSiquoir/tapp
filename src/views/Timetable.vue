@@ -7,7 +7,6 @@
         <CreateEvents 
         @addEvent="addEvent"
         :hideWeekdays="hideWeekdays"
-        
         />
         
         <v-btn 
@@ -110,7 +109,6 @@ export default {
 </script>
 
 <style>
-    /* Green-theme. */
   
   .vuecal {
     margin: auto;
@@ -118,7 +116,7 @@ export default {
     }
   .allBtn {
     text-align: center;
-    background-color: rgba(236, 236, 236, 0.63);
+    background-color: rgba(177, 147, 158, 0.404);
     margin-bottom: 30px;
     margin-top: 30px;
   }
