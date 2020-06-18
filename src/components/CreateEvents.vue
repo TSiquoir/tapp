@@ -201,7 +201,6 @@
                 return !this.day || !this.timeStart || !this.timeEnd
             },
        
-       
         },
         methods: {
             createEvent() {
@@ -210,14 +209,12 @@
                    day:this.day,
                    timeStart:this.timeStart,
                    timeEnd:this.timeEnd,
-                   
                })
             },
-
-
            // Pour selectionner les minutes par tranche de 5
             allowedStep: m => m % 5 === 0,
         },
+        // Cherche dans la base de donnée les Matières
         async mounted () {
             const { data } = await this.$axios.get('/subject')
             this.subjects = data

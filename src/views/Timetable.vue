@@ -73,8 +73,6 @@ export default {
 
       events: [],
       hideWeekdays: [6,7],
-      
-
 
       /*events: [
         {
@@ -85,6 +83,7 @@ export default {
           class: 'sport'
         }, 
       ]*/
+
     }
   },
 
@@ -98,11 +97,10 @@ export default {
 
       this.$axios.post('/timetable/task', data)
       console.log(data)
-      // Pour envoyer dans le tableau events, ce qui va afficher le résultat dans le tableau.
+      // Pour envoyer les données dans le tableau events, ce qui va les placers au bon endroit.
       this.events.push(data)
       
     },
-    
   }
 }
 
